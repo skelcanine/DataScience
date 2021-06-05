@@ -10,5 +10,5 @@ data = df[df.location.isin(['Germany'])]
 
 
 print(data)
-fig = px.histogram(data, x="date", y="new_deaths", nbins=365)
+fig = px.histogram(data, x="date", y="new_deaths", nbins=len(data))
 fig.show()
