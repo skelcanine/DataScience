@@ -1,21 +1,19 @@
 import pandas as pd
-import numpy as np
-
-
 import matplotlib.pyplot as plt
 
 df = pd.read_csv('https://covid.ourworldindata.org/data/owid-covid-data.csv', parse_dates=["date"], low_memory=False)
+data = df[df.location.isin(['Germany'])]
 
-data = df[df.location.isin(['Germany', 'France', 'Italy', 'Spain'])]
-
-data = data[(np.datetime64(pd.datetime.now().date()) - data['date']).astype('timedelta64[D]').astype(int) < 100 ].copy()
-
-#data = data.groupby(["date","location"], as_index=False)['new_cases'].sum()
+data = data[['date','new_deaths','new_cases']]
 
 print(data)
-plt.figure(figsize=(100, 10))
-plt.subplot(1, 2, 1)
-datax = data[data.location.isin(['Germany'])]
-print(datax)
-plt.plot(datax['date'], datax['new_cases'], c = "#FF914D", marker = "o", markersize = 10, linestyle = "-", linewidth = 3)
+print(data['new_cases'].max())
+
+fig = plt.figure(figsize=(35, 10))
+ax1 = fig.add_subplot(111)
+
+plt.scatter(data.date, data.new_cases, s=10, c='b', marker="s", label='New Cases')
+#plt.scatter(df['date'],df['new_deaths'], s=2, c='r', marker="o", label='New Deaths')
+plt.legend(loc='upper left');
 plt.show()
+

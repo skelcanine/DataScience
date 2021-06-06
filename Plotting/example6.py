@@ -1,20 +1,18 @@
 import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
 
-df = pd.read_csv('https://covid.ourworldindata.org/data/owid-covid-data.csv', parse_dates=["date"], low_memory=False)
+
+
+df = pd.read_csv('owid-covid-data.csv', parse_dates=["date"], low_memory=False)
 data = df[df.location.isin(['Germany'])]
 
-data = data[['date','new_deaths','new_cases']]
+data = data[['date', 'total_cases']].set_index('date')
+
+plt.figure(figsize=(25, 10))
 
 print(data)
-print(data['new_cases'].max())
 
-fig = plt.figure(figsize=(35, 10))
-ax1 = fig.add_subplot(111)
+plt.subplot(3,1,1)
 
-plt.scatter(data.date, data.new_cases, s=10, c='b', marker="s", label='New Cases')
-#plt.scatter(df['date'],df['new_deaths'], s=2, c='r', marker="o", label='New Deaths')
-plt.legend(loc='upper left');
+plt.hist(data['total_cases'], color="#FF914D", bins=len(data))
 plt.show()
-
